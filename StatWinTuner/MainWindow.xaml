@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StatWinTuner"
         mc:Ignorable="d" WindowStyle="ToolWindow" FontSize="16" FontWeight="SemiBold"
+        WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Title="Арм Стат - настройка StatWin" Height="350" Width="300">
     <Grid>

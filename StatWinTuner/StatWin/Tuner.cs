@@ -31,14 +31,14 @@ namespace StatWinTuner
 
         public string ApplySettings()
         {
-            if (System.IO.File.Exists(_winPath) || System.IO.File.Exists(_winPathTTR))
+            if (File.Exists(_winPath) || File.Exists(_winPathTTR))
             {
-                if (System.IO.File.Exists(_winPath))
+                if (File.Exists(_winPath))
                 {
                     CorrectWin(_winPath);
                     resultMsg += $@"Файл {_winPath} перезаписан";
                 }
-                if (System.IO.File.Exists(_winPathTTR))
+                if (File.Exists(_winPathTTR))
                 {
                     CorrectWin(_winPathTTR);
                     resultMsg += $@"{Environment.NewLine}Файл {_winPathTTR} перезаписан";
@@ -56,45 +56,41 @@ namespace StatWinTuner
 
         private void CorrectWin(string statWinFile)
         {
-            string statWinConfig = System.IO.File.ReadAllText($@"{statWinFile}", Encoding.Default);   //@"C:\ARM_STAT\STAT_WIN.INI"
+            string statWinConfig = File.ReadAllText($@"{statWinFile}", Encoding.Default);   //@"C:\ARM_STAT\STAT_WIN.INI"
 
-            statWinConfig = Regex.Replace($@"{statWinConfig}", _exServer, _newServer);
-            System.IO.File.WriteAllText($@"{statWinFile}", statWinConfig, Encoding.Default);
+            statWinConfig = Regex.Replace($@"{statWinConfig}", _exServer, _newServer, RegexOptions.IgnoreCase);
+            File.WriteAllText($@"{statWinFile}", statWinConfig, Encoding.Default);
         }
 
         private string ReplaceLnk()
         {
-            string targetPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + $@"\{_statDirDctp}";
-            string targetPath2 = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + $@"\{_statDirDctp2}";
+            if (Directory.Exists(_sourcePath))
+            {
+                string targetPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + $@"\{_statDirDctp}";
+                string targetPath2 = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + $@"\{_statDirDctp2}";
 
-            if (Directory.Exists(targetPath))
-            {
-                DirCopy.CopyAll(new DirectoryInfo(_sourcePath), new DirectoryInfo(targetPath));
-                resultMsg += $"{Environment.NewLine}ссылки на ресурсы обновлены";
-            }
-            else if (Directory.Exists(targetPath2))
-            {
-                DirCopy.CopyAll(new DirectoryInfo(_sourcePath), new DirectoryInfo(targetPath2));
-                resultMsg += $"{Environment.NewLine}ссылки на ресурсы обновлены";
+                if (Directory.Exists(targetPath))
+                {
+                    DirCopy.CopyAll(new DirectoryInfo(_sourcePath), new DirectoryInfo(targetPath));
+                    resultMsg += $"{Environment.NewLine}ссылки на ресурсы обновлены";
+                }
+                else if (Directory.Exists(targetPath2))
+                {
+                    DirCopy.CopyAll(new DirectoryInfo(_sourcePath), new DirectoryInfo(targetPath2));
+                    resultMsg += $"{Environment.NewLine}ссылки на ресурсы обновлены";
+                }
+                else
+                {
+                    DirCopy.CopyAll(new DirectoryInfo(_sourcePath), new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
+                    resultMsg += $"{Environment.NewLine}ссылка на директорию Отчеты в Аппарат помещена на рабочий стол!";
+                }
             }
             else
             {
-                DirCopy.CopyAll(new DirectoryInfo(_sourcePath), new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)));
-                resultMsg += $"{Environment.NewLine}ссылка на директорию Отчеты в Аппарат помещена на рабочий стол!";
+                resultMsg += $"{Environment.NewLine}Отсутствует доступ к ресурсу {_sourcePath}";
             }
             return resultMsg;
         }
-
-        //public override string ToString()
-        //{
-        //    return $"{_exServer}\n{_newServer}\n{_sitePath}";
-        //}
     }
 
 }
-
-
-//if (System.IO.File.Exists(_winPathTTR))
-//{
-
-//}
