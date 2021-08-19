@@ -42,9 +42,12 @@ namespace StatWinTuner
             else
             {
                 //gridy.Background = Brushes.LightSalmon;
-                myBrush.ImageSource = new BitmapImage(new Uri(BaseUriHelper.GetBaseUri(this), "Img/success.png"));      //@"/Img/error.jpg", UriKind.Absolute));
+                myBrush.ImageSource = new BitmapImage(new Uri(BaseUriHelper.GetBaseUri(this), "Img/failed.png"));      //@"/Img/error.jpg", UriKind.Absolute));
                 gridy.Background = myBrush;
             }
+
+            btnRun.Content = "Закрыть";
+            btnRun.Click += (a, b) => this.Close();
         }
     }
 }

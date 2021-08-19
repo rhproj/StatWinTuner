@@ -40,21 +40,23 @@ namespace StatWinTuner
         public string ApplySettings()
         {
             string resultMsg = string.Empty;
-            if (File.Exists(_winPath))
+            if (File.Exists(_winPath) || File.Exists(_winPathTTR))
             {
-                CorrectWin(_winPath);
-                resultMsg += $@"Файл {_winPath} перезаписан{Environment.NewLine}";
-                success = true;
-            }
-            if (File.Exists(_winPathTTR))
-            {
-                CorrectWin(_winPathTTR);
-                resultMsg += $@"Файл {_winPathTTR} перезаписан{Environment.NewLine}";
+                if (File.Exists(_winPath))
+                {
+                    CorrectWin(_winPath);
+                    resultMsg += $@"Файл {_winPath} перезаписан{Environment.NewLine}";
+                }
+                if (File.Exists(_winPathTTR))
+                {
+                    CorrectWin(_winPathTTR);
+                    resultMsg += $@"Файл {_winPathTTR} перезаписан{Environment.NewLine}";
+                }
                 success = true;
             }
             else
             {
-                resultMsg = $"Не удалось найти файлов для перезаписи {Environment.NewLine}Убедитесь что установлена соответствующая версия программы АрмСтат";
+                resultMsg = $"Не удалось найти файлов для перезаписи! {Environment.NewLine}Убедитесь что установлена соответствующая версия программы АрмСтат";
                 success = false;
             }
 
@@ -79,4 +81,11 @@ namespace StatWinTuner
         //    return $"{_exServer}\n{_newServer}\n{_sitePath}";
         //}
     }
+
 }
+
+
+//if (File.Exists(_winPathTTR))
+//{
+
+//}
