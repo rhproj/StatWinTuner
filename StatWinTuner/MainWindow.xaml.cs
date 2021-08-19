@@ -33,6 +33,7 @@ namespace StatWinTuner
 
             tBlMessage.Text = tuner.ApplySettings();  //string.Join("\n", tuner.DisplayAppCfg());
 
+
             if (tuner.success)
             {
                 //gridy.Background = Brushes.LightGreen;
